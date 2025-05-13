@@ -63,6 +63,7 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
+    students: StudentAuthOperations;
   };
   blocks: {};
   collections: {
@@ -71,6 +72,10 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
+    students: Student;
+    institutions: Institution;
+    recruiters: Recruiter;
+    programs: Program;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -87,6 +92,10 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    students: StudentsSelect<false> | StudentsSelect<true>;
+    institutions: InstitutionsSelect<false> | InstitutionsSelect<true>;
+    recruiters: RecruitersSelect<false> | RecruitersSelect<true>;
+    programs: ProgramsSelect<false> | ProgramsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -108,9 +117,13 @@ export interface Config {
     footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: null;
-  user: User & {
-    collection: 'users';
-  };
+  user:
+    | (User & {
+        collection: 'users';
+      })
+    | (Student & {
+        collection: 'students';
+      });
   jobs: {
     tasks: {
       schedulePublish: TaskSchedulePublish;
@@ -123,6 +136,24 @@ export interface Config {
   };
 }
 export interface UserAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
+  };
+}
+export interface StudentAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -727,6 +758,256 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "students".
+ */
+export interface Student {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "institutions".
+ */
+export interface Institution {
+  id: string;
+  schoolName: string;
+  country:
+    | 'AF'
+    | 'AL'
+    | 'DZ'
+    | 'AD'
+    | 'AO'
+    | 'AG'
+    | 'AR'
+    | 'AM'
+    | 'AU'
+    | 'AT'
+    | 'AZ'
+    | 'BS'
+    | 'BH'
+    | 'BD'
+    | 'BB'
+    | 'BY'
+    | 'BE'
+    | 'BZ'
+    | 'BJ'
+    | 'BT'
+    | 'BO'
+    | 'BA'
+    | 'BW'
+    | 'BR'
+    | 'BN'
+    | 'BG'
+    | 'BF'
+    | 'BI'
+    | 'CV'
+    | 'KH'
+    | 'CM'
+    | 'CA'
+    | 'CF'
+    | 'TD'
+    | 'CL'
+    | 'CN'
+    | 'CO'
+    | 'KM'
+    | 'CG'
+    | 'CR'
+    | 'HR'
+    | 'CU'
+    | 'CY'
+    | 'CZ'
+    | 'CD'
+    | 'DK'
+    | 'DJ'
+    | 'DM'
+    | 'DO'
+    | 'EC'
+    | 'EG'
+    | 'SV'
+    | 'GQ'
+    | 'ER'
+    | 'EE'
+    | 'SZ'
+    | 'ET'
+    | 'FJ'
+    | 'FI'
+    | 'FR'
+    | 'GA'
+    | 'GM'
+    | 'GE'
+    | 'DE'
+    | 'GH'
+    | 'GR'
+    | 'GD'
+    | 'GT'
+    | 'GN'
+    | 'GW'
+    | 'GY'
+    | 'HT'
+    | 'HN'
+    | 'HU'
+    | 'IS'
+    | 'IN'
+    | 'ID'
+    | 'IR'
+    | 'IQ'
+    | 'IE'
+    | 'IL'
+    | 'IT'
+    | 'JM'
+    | 'JP'
+    | 'JO'
+    | 'KZ'
+    | 'KE'
+    | 'KI'
+    | 'KW'
+    | 'KG'
+    | 'LA'
+    | 'LV'
+    | 'LB'
+    | 'LS'
+    | 'LR'
+    | 'LY'
+    | 'LI'
+    | 'LT'
+    | 'LU'
+    | 'MG'
+    | 'MW'
+    | 'MY'
+    | 'MV'
+    | 'ML'
+    | 'MT'
+    | 'MH'
+    | 'MR'
+    | 'MU'
+    | 'MX'
+    | 'FM'
+    | 'MD'
+    | 'MC'
+    | 'MN'
+    | 'ME'
+    | 'MA'
+    | 'MZ'
+    | 'MM'
+    | 'NA'
+    | 'NR'
+    | 'NP'
+    | 'NL'
+    | 'NZ'
+    | 'NI'
+    | 'NE'
+    | 'NG'
+    | 'KP'
+    | 'MK'
+    | 'NO'
+    | 'OM'
+    | 'PK'
+    | 'PW'
+    | 'PS'
+    | 'PA'
+    | 'PG'
+    | 'PY'
+    | 'PE'
+    | 'PH'
+    | 'PL'
+    | 'PT'
+    | 'QA'
+    | 'RO'
+    | 'RU'
+    | 'RW'
+    | 'KN'
+    | 'LC'
+    | 'VC'
+    | 'WS'
+    | 'SM'
+    | 'ST'
+    | 'SA'
+    | 'SN'
+    | 'RS'
+    | 'SC'
+    | 'SL'
+    | 'SG'
+    | 'SK'
+    | 'SI'
+    | 'SB'
+    | 'SO'
+    | 'ZA'
+    | 'KR'
+    | 'SS'
+    | 'ES'
+    | 'LK'
+    | 'SD'
+    | 'SR'
+    | 'SE'
+    | 'CH'
+    | 'SY'
+    | 'TW'
+    | 'TJ'
+    | 'TZ'
+    | 'TH'
+    | 'TL'
+    | 'TG'
+    | 'TO'
+    | 'TT'
+    | 'TN'
+    | 'TR'
+    | 'TM'
+    | 'TV'
+    | 'UG'
+    | 'UA'
+    | 'AE'
+    | 'GB'
+    | 'US'
+    | 'UY'
+    | 'UZ'
+    | 'VU'
+    | 'VA'
+    | 'VE'
+    | 'VN'
+    | 'YE'
+    | 'ZM'
+    | 'ZW';
+  ContactFirstName: string;
+  ContactLastName?: string | null;
+  ContactEmail: string;
+  PhoneNumber: string;
+  contactTitle?: string | null;
+  comments?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recruiters".
+ */
+export interface Recruiter {
+  id: string;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs".
+ */
+export interface Program {
+  id: string;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -918,6 +1199,22 @@ export interface PayloadLockedDocument {
         value: string | User;
       } | null)
     | ({
+        relationTo: 'students';
+        value: string | Student;
+      } | null)
+    | ({
+        relationTo: 'institutions';
+        value: string | Institution;
+      } | null)
+    | ({
+        relationTo: 'recruiters';
+        value: string | Recruiter;
+      } | null)
+    | ({
+        relationTo: 'programs';
+        value: string | Program;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: string | Redirect;
       } | null)
@@ -938,10 +1235,15 @@ export interface PayloadLockedDocument {
         value: string | PayloadJob;
       } | null);
   globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: string | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: string | User;
+      }
+    | {
+        relationTo: 'students';
+        value: string | Student;
+      };
   updatedAt: string;
   createdAt: string;
 }
@@ -951,10 +1253,15 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: string;
-  user: {
-    relationTo: 'users';
-    value: string | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: string | User;
+      }
+    | {
+        relationTo: 'students';
+        value: string | Student;
+      };
   key?: string | null;
   value?:
     | {
@@ -1273,6 +1580,56 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "students_select".
+ */
+export interface StudentsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "institutions_select".
+ */
+export interface InstitutionsSelect<T extends boolean = true> {
+  schoolName?: T;
+  country?: T;
+  ContactFirstName?: T;
+  ContactLastName?: T;
+  ContactEmail?: T;
+  PhoneNumber?: T;
+  contactTitle?: T;
+  comments?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "recruiters_select".
+ */
+export interface RecruitersSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs_select".
+ */
+export interface ProgramsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
