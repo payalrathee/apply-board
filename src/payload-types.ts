@@ -403,7 +403,10 @@ export interface Category {
  */
 export interface User {
   id: string;
-  name?: string | null;
+  firstName: string;
+  lastName?: string | null;
+  phone?: string | null;
+  role: 'admin' | 'recruiter' | 'student';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -1570,7 +1573,10 @@ export interface CategoriesSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  name?: T;
+  firstName?: T;
+  lastName?: T;
+  phone?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
