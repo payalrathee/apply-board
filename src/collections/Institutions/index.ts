@@ -1,3 +1,4 @@
+import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import type {CollectionConfig} from 'payload';
 
 export const Institutions: CollectionConfig = {
@@ -247,6 +248,25 @@ export const Institutions: CollectionConfig = {
             name: 'comments',
             type: 'textarea',
             label: 'Comments'
+        },
+        {
+            name: 'about',
+            label: 'About',
+            type: 'richText',
+            required: false,
+            editor: lexicalEditor({}),
+        },
+        {
+            name: 'founded',
+            type: 'number'
+        },
+        {
+            name: 'location',
+            type: 'text'
+        }, 
+        {
+            name: 'schoolType',
+            type: 'text'
         }
     ],
     timestamps: true

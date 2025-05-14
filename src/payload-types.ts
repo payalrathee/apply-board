@@ -63,7 +63,6 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
-    students: StudentAuthOperations;
   };
   blocks: {};
   collections: {
@@ -72,9 +71,7 @@ export interface Config {
     media: Media;
     categories: Category;
     users: User;
-    students: Student;
     institutions: Institution;
-    recruiters: Recruiter;
     programs: Program;
     redirects: Redirect;
     forms: Form;
@@ -92,9 +89,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
-    students: StudentsSelect<false> | StudentsSelect<true>;
     institutions: InstitutionsSelect<false> | InstitutionsSelect<true>;
-    recruiters: RecruitersSelect<false> | RecruitersSelect<true>;
     programs: ProgramsSelect<false> | ProgramsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
@@ -117,13 +112,9 @@ export interface Config {
     footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: null;
-  user:
-    | (User & {
-        collection: 'users';
-      })
-    | (Student & {
-        collection: 'students';
-      });
+  user: User & {
+    collection: 'users';
+  };
   jobs: {
     tasks: {
       schedulePublish: TaskSchedulePublish;
@@ -136,24 +127,6 @@ export interface Config {
   };
 }
 export interface UserAuthOperations {
-  forgotPassword: {
-    email: string;
-    password: string;
-  };
-  login: {
-    email: string;
-    password: string;
-  };
-  registerFirstUser: {
-    email: string;
-    password: string;
-  };
-  unlock: {
-    email: string;
-    password: string;
-  };
-}
-export interface StudentAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -761,24 +734,6 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "students".
- */
-export interface Student {
-  id: string;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "institutions".
  */
 export interface Institution {
@@ -986,16 +941,24 @@ export interface Institution {
   PhoneNumber: string;
   contactTitle?: string | null;
   comments?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "recruiters".
- */
-export interface Recruiter {
-  id: string;
-  name: string;
+  about?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  founded?: number | null;
+  location?: string | null;
+  schoolType?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1005,7 +968,24 @@ export interface Recruiter {
  */
 export interface Program {
   id: string;
-  name: string;
+  programName: string;
+  about?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  programLevel: 'undergraduate' | 'postgraduate' | 'diploma' | 'certificate';
+  applicationFee?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1202,16 +1182,8 @@ export interface PayloadLockedDocument {
         value: string | User;
       } | null)
     | ({
-        relationTo: 'students';
-        value: string | Student;
-      } | null)
-    | ({
         relationTo: 'institutions';
         value: string | Institution;
-      } | null)
-    | ({
-        relationTo: 'recruiters';
-        value: string | Recruiter;
       } | null)
     | ({
         relationTo: 'programs';
@@ -1238,15 +1210,10 @@ export interface PayloadLockedDocument {
         value: string | PayloadJob;
       } | null);
   globalSlug?: string | null;
-  user:
-    | {
-        relationTo: 'users';
-        value: string | User;
-      }
-    | {
-        relationTo: 'students';
-        value: string | Student;
-      };
+  user: {
+    relationTo: 'users';
+    value: string | User;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1256,15 +1223,10 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: string;
-  user:
-    | {
-        relationTo: 'users';
-        value: string | User;
-      }
-    | {
-        relationTo: 'students';
-        value: string | Student;
-      };
+  user: {
+    relationTo: 'users';
+    value: string | User;
+  };
   key?: string | null;
   value?:
     | {
@@ -1589,22 +1551,6 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "students_select".
- */
-export interface StudentsSelect<T extends boolean = true> {
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "institutions_select".
  */
 export interface InstitutionsSelect<T extends boolean = true> {
@@ -1616,15 +1562,10 @@ export interface InstitutionsSelect<T extends boolean = true> {
   PhoneNumber?: T;
   contactTitle?: T;
   comments?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "recruiters_select".
- */
-export interface RecruitersSelect<T extends boolean = true> {
-  name?: T;
+  about?: T;
+  founded?: T;
+  location?: T;
+  schoolType?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1633,7 +1574,10 @@ export interface RecruitersSelect<T extends boolean = true> {
  * via the `definition` "programs_select".
  */
 export interface ProgramsSelect<T extends boolean = true> {
-  name?: T;
+  programName?: T;
+  about?: T;
+  programLevel?: T;
+  applicationFee?: T;
   updatedAt?: T;
   createdAt?: T;
 }
