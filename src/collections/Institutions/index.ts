@@ -1,8 +1,17 @@
+import { anyone } from '@/access/anyone';
+import { authenticated } from '@/access/authenticated';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import type {CollectionConfig} from 'payload';
 
 export const Institutions: CollectionConfig = {
     slug: 'institutions',
+    access: {
+        admin: ({ req }) => req.user?.role === 'admin',
+        create: authenticated,
+        delete: authenticated,
+        read: anyone,
+        update: authenticated,
+    },
     admin: {
         useAsTitle: 'schoolName',
     },
