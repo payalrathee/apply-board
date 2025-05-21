@@ -959,6 +959,7 @@ export interface Institution {
   founded?: number | null;
   location?: string | null;
   schoolType?: string | null;
+  programs?: (string | Program)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -986,6 +987,7 @@ export interface Program {
   } | null;
   programLevel: 'undergraduate' | 'postgraduate' | 'diploma' | 'certificate';
   applicationFee?: number | null;
+  institution: string | Institution;
   updatedAt: string;
   createdAt: string;
 }
@@ -1566,6 +1568,7 @@ export interface InstitutionsSelect<T extends boolean = true> {
   founded?: T;
   location?: T;
   schoolType?: T;
+  programs?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1578,6 +1581,7 @@ export interface ProgramsSelect<T extends boolean = true> {
   about?: T;
   programLevel?: T;
   applicationFee?: T;
+  institution?: T;
   updatedAt?: T;
   createdAt?: T;
 }

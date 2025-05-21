@@ -2,12 +2,13 @@ import type { CollectionConfig } from 'payload';
 
 import { authenticated } from '../../access/authenticated';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
+import { anyone } from '@/access/anyone';
 
 export const Programs: CollectionConfig = {
     slug: 'programs',
     access: {
         admin: authenticated,
-        read: authenticated,
+        read: anyone,
         create: authenticated,
         update: authenticated,
         delete: authenticated,
@@ -46,6 +47,12 @@ export const Programs: CollectionConfig = {
             label: 'Application Fee',
             type: 'number',
             required: false,
+        },
+        {
+            name: 'institution',
+            type: 'relationship',
+            relationTo: 'institutions',
+            required: true, 
         },
     ],
 };

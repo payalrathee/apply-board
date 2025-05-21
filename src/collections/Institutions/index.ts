@@ -1,7 +1,7 @@
 import { anyone } from '@/access/anyone';
 import { authenticated } from '@/access/authenticated';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
-import type {CollectionConfig} from 'payload';
+import type { CollectionConfig } from 'payload';
 
 export const Institutions: CollectionConfig = {
     slug: 'institutions',
@@ -272,11 +272,17 @@ export const Institutions: CollectionConfig = {
         {
             name: 'location',
             type: 'text'
-        }, 
+        },
         {
             name: 'schoolType',
             type: 'text'
-        }
+        },
+        {
+            name: 'programs',
+            type: 'relationship',
+            relationTo: 'programs',
+            hasMany: true, 
+        },
     ],
     timestamps: true
 };
