@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload';
 import { authenticated } from '../../access/authenticated';
+import { anyone } from '@/access/anyone';
 
 export const Users: CollectionConfig = {
     slug: 'users',
@@ -7,10 +8,10 @@ export const Users: CollectionConfig = {
     timestamps: true,
     access: {
         admin: ({ req }) => req.user?.role === 'admin',
-        create: authenticated,
+        create: anyone,
         delete: authenticated,
-        read: authenticated,
-        update: authenticated,
+        read: anyone,
+        update: anyone,
     },
     admin: {
         defaultColumns: ['firstName', 'lastName', 'email', 'role'],
@@ -36,7 +37,7 @@ export const Users: CollectionConfig = {
             name: 'role',
             type: 'select',
             required: true,
-            defaultValue: 'recruiter',
+            defaultValue: 'student',
             options: [
                 { label: 'Admin', value: 'admin' },
                 { label: 'Recruiter', value: 'recruiter' },

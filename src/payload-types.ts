@@ -960,6 +960,7 @@ export interface Institution {
   location?: string | null;
   schoolType?: string | null;
   programs?: (string | Program)[] | null;
+  image?: (string | null) | Media;
   updatedAt: string;
   createdAt: string;
 }
@@ -1569,6 +1570,7 @@ export interface InstitutionsSelect<T extends boolean = true> {
   location?: T;
   schoolType?: T;
   programs?: T;
+  image?: T;
   updatedAt?: T;
   createdAt?: T;
 }

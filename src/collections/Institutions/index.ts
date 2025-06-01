@@ -281,7 +281,12 @@ export const Institutions: CollectionConfig = {
             name: 'programs',
             type: 'relationship',
             relationTo: 'programs',
-            hasMany: true, 
+            hasMany: true,
+        },
+        {
+            name: 'image',
+            type: 'upload',
+            relationTo: 'media',
         },
     ],
     timestamps: true
