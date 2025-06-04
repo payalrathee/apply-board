@@ -986,7 +986,8 @@ export interface Program {
     };
     [k: string]: unknown;
   } | null;
-  programLevel: 'undergraduate' | 'postgraduate' | 'diploma' | 'certificate';
+  programLevel: 'undergraduate' | 'postgraduate' | 'diploma' | 'school' | 'language';
+  field: 'arts' | 'business' | 'school' | 'language' | 'tech' | 'medicine' | 'law' | 'science' | 'other';
   applicationFee?: number | null;
   institution: string | Institution;
   updatedAt: string;
@@ -1582,6 +1583,7 @@ export interface ProgramsSelect<T extends boolean = true> {
   programName?: T;
   about?: T;
   programLevel?: T;
+  field?: T;
   applicationFee?: T;
   institution?: T;
   updatedAt?: T;
